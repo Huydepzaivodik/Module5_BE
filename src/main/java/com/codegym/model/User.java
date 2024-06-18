@@ -52,4 +52,8 @@ public class User implements Serializable {
     @NotBlank(message = "Thiếu Email")
     private String email;
 
+    @Column(nullable = false)
+    @NotBlank(message = "Thiếu Gender")
+    private String gender;
+
 }
