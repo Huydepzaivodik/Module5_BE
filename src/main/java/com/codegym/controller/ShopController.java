@@ -28,7 +28,7 @@ public class ShopController {
            return new ResponseEntity<>("SUCCESSED",HttpStatus.OK);
     }
     @GetMapping("/edit/{id}")
-    public ResponseEntity<Shop> showEdit(@RequestParam Long id) {
+    public ResponseEntity<Shop> showEdit(@PathVariable Long id) {
         Shop shop = shopService.findByUserId(id);
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
