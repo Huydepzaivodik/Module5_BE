@@ -19,7 +19,7 @@
     @Autowired
     private IFoodService foodService;
         @GetMapping("")
-        public ResponseEntity<List<Food>> getAll(){
+        public ResponseEntity<?> getAll(){
             List<Food> list = foodService.findAll();
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
