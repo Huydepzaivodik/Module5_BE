@@ -33,7 +33,8 @@ public class ShopController {
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
     @PostMapping("/edit")
-    public ResponseEntity<?> showEdit(@RequestBody Shop shop) {
+    public ResponseEntity<String> saveMerchant(@RequestBody Shop shop) {
+        shop.setId(shopService.findByUserId(shop.getUser().getId()).getId());
         shopService.save(shop);
         return new ResponseEntity<String>("OK",HttpStatus.OK);
     }
