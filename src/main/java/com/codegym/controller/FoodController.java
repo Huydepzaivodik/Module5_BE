@@ -18,11 +18,13 @@
     public class FoodController {
     @Autowired
     private IFoodService foodService;
+
         @GetMapping("")
         public ResponseEntity<?> getAll(){
             List<Food> list = foodService.findAll();
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
+
         @PostMapping("")
         public ResponseEntity<String> add(@RequestBody Food food) {
             foodService.save(food);
@@ -37,4 +39,19 @@
             String message = "Edit success";
             return new ResponseEntity<>(message, HttpStatus.OK);
         }
+    
+
+    @PostMapping
+    public ResponseEntity<String> addFood(@RequestBody Food food) {
+        foodService.save(food);
+        String message = "Add success";
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        foodService.remove(id);
+        String message = "Delete success";
+    return new ResponseEntity<>(message,HttpStatus.OK);
+    }
+    
     }

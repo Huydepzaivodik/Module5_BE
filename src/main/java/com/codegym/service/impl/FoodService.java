@@ -7,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 @Service
-
 public class FoodService implements IFoodService {
-
     @Autowired
     private FoodRepository foodRepository;
 
@@ -23,7 +19,7 @@ public class FoodService implements IFoodService {
 
     @Override
     public Food findById(Long id) {
-        return foodRepository.findById(id).get();
+        return foodRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -34,5 +30,10 @@ public class FoodService implements IFoodService {
     @Override
     public void remove(Long id) {
         foodRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Food> findByShopId(Long shopId) {
+        return foodRepository.findByShopId(shopId);
     }
 }
