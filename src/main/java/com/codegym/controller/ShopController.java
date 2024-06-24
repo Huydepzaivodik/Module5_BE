@@ -32,4 +32,10 @@ public class ShopController {
         Shop shop = shopService.findByUserId(id);
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
+    @GetMapping("/edit")
+    public ResponseEntity<?> showEdit(@RequestBody Shop shop) {
+        shopService.save(shop);
+        return new ResponseEntity<String>("OK",HttpStatus.OK);
+    }
+
 }
