@@ -47,4 +47,10 @@ public class FoodController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Food>> search(@RequestParam("foodName") String name) {
+        List<Food> list = foodService.findByNameContaining(name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }

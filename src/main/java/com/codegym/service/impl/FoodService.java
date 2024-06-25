@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class FoodService implements IFoodService {
     @Autowired
@@ -35,5 +36,10 @@ public class FoodService implements IFoodService {
     @Override
     public List<Food> findByShopId(Long shopId) {
         return foodRepository.findByShopId(shopId);
+    }
+
+    @Override
+    public List<Food> findByNameContaining(String searchName) {
+        return foodRepository.findByNameContaining(searchName);
     }
 }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface IFoodService extends IGenerateService<Food>{
 
     List<Food> findByShopId(Long shopId);
+    List<Food> findByNameContaining(String name);
+
 }

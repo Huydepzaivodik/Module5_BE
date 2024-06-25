@@ -77,7 +77,7 @@
                                 .requestMatchers("/login", "/register", "/hello","/foods/**").permitAll()
                                 .requestMatchers("/users/**").hasAnyAuthority("ROLE_USER")
                                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                                .requestMatchers("/merchant/**").hasAnyAuthority("ROLE_MERCHANT")
+                                .requestMatchers("/merchant/**","/foods/search").hasAnyAuthority("ROLE_MERCHANT")
 //                        .requestMatchers(HttpMethod.GET).hasAnyRole("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 //                        .requestMatchers(HttpMethod.DELETE, "/categories",
 //                                "/typeOfQuestions",
