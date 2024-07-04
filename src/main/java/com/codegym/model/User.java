@@ -55,5 +55,4 @@ public class User implements Serializable {
     @Column(nullable = false)
     @NotBlank(message = "Thiếu Gender")
     private String gender;
-
 }

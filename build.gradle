@@ -30,9 +30,7 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-    // https://mvnrepository.com/artifact/javax.validation/validation-api
     implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.10.Final'
 }
 
