@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/user")
+@RequestMapping("/user/shops")
 public class ShopUserController {
     @Autowired
     private IShopService shopService;
@@ -35,12 +35,13 @@ public class ShopUserController {
         List<Food> foods = foodService.findByShopId(id);
         return new ResponseEntity<>(foods, HttpStatus.OK);
     }
-    //Show chi tiết food trong shop theo food_ID
-    @PostMapping("/{id}")
-    public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
-        Food food = foodService.findById(id);
-        return new ResponseEntity<>(food, HttpStatus.OK);
-    }
+
+//    //Show chi tiết food trong shop theo food_ID
+//    @PostMapping("/{id}")
+//    public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
+//        Food food = foodService.findById(id);
+//        return new ResponseEntity<>(food, HttpStatus.OK);
+//    }
 
 
 }
