@@ -59,4 +59,12 @@ public class FoodController {
         return new ResponseEntity<>(food, HttpStatus.OK);
 
     }
+
+    //id ở đây là shop_id
+    @GetMapping("/shop/{id}")
+    public ResponseEntity<List<Food>> getFoodByShopId(@PathVariable Long id) {
+        List<Food> list = foodService.findByShopId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
