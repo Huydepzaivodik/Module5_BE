@@ -38,10 +38,10 @@ public class ShopController {
         shopService.save(shop);
         return new ResponseEntity<String>("OK",HttpStatus.OK);
     }
+
     @GetMapping("/shop/{id_merchant}")
     public ResponseEntity<Shop> getShopByMerchantId(@PathVariable Long id_merchant) {
         Shop shop = shopService.findByUserId(id_merchant);
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
-
 }

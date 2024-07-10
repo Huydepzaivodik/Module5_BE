@@ -74,8 +74,8 @@
         return http.csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/login", "/register", "/hello").permitAll()
-                                .requestMatchers("/user/shops/**","/user/foods/**").hasAnyAuthority("ROLE_USER")
+                                .requestMatchers("/login", "/register", "/hello","/merchant/register").permitAll()
+                                .requestMatchers("/user/shops/**","/user/foods/**","/users/**","/cart/**").hasAnyAuthority("ROLE_USER")
                                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/merchant/**","/foods/**").hasAnyAuthority("ROLE_MERCHANT")
 //                        .requestMatchers(HttpMethod.GET).hasAnyRole("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
