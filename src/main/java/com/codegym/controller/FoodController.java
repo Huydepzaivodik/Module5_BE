@@ -59,4 +59,20 @@ public class FoodController {
         return new ResponseEntity<>(food, HttpStatus.OK);
 
     }
+
+    //id ở đây là shop_id
+    @GetMapping("/shop/{id}")
+    public ResponseEntity<List<Food>> getFoodByShopId(@PathVariable Long id) {
+        List<Food> list = foodService.findByShopId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    //Search
+    @GetMapping("/{shop_id}/search")
+    public ResponseEntity<List<Food>> searchFoodInShop(@RequestParam("foodName") String name, @PathVariable Long shop_id) {
+        List<Food> list = foodService.findByShopIdAndNameContaining(shop_id, name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+
 }
