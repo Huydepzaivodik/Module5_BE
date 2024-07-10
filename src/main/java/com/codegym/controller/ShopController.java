@@ -32,10 +32,16 @@ public class ShopController {
         Shop shop = shopService.findByUserId(id);
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
-    @GetMapping("/edit")
-    public ResponseEntity<?> showEdit(@RequestBody Shop shop) {
+    @PostMapping("/edit")
+    public ResponseEntity<String> saveMerchant(@RequestBody Shop shop) {
+        shop.setId(shopService.findByUserId(shop.getUser().getId()).getId());
         shopService.save(shop);
         return new ResponseEntity<String>("OK",HttpStatus.OK);
+    }
+    @GetMapping("/shop/{id_merchant}")
+    public ResponseEntity<Shop> getShopByMerchantId(@PathVariable Long id_merchant) {
+        Shop shop = shopService.findByUserId(id_merchant);
+        return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
 
 }

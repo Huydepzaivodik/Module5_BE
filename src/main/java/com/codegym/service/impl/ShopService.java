@@ -13,7 +13,7 @@ public class ShopService implements IShopService {
     ShopRepository shopRepository;
     @Override
     public List<Shop> findAll() {
-        return null;
+        return shopRepository.findAll();
     }
 
     @Override
