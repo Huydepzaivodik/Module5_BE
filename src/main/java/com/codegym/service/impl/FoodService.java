@@ -42,4 +42,9 @@ public class FoodService implements IFoodService {
     public List<Food> findByNameContaining(String searchName) {
         return foodRepository.findByNameContaining(searchName);
     }
+
+    @Override
+    public List<Food> findByShopIdAndNameContaining(Long shopId, String name) {
+        return foodRepository.findByShopIdAndNameContaining(shopId, name);
+    }
 }

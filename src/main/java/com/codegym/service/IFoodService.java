@@ -8,5 +8,7 @@ public interface IFoodService extends IGenerateService<Food>{
 
     List<Food> findByShopId(Long shopId);
     List<Food> findByNameContaining(String name);
+    List<Food> findByShopIdAndNameContaining(Long shopId, String name);
+
 
 }
