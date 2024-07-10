@@ -75,7 +75,7 @@
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/login", "/register", "/hello").permitAll()
-                                .requestMatchers("/users/**","/cart/**","/foods/**").hasAnyAuthority("ROLE_USER")
+                                .requestMatchers("/users/**").hasAnyAuthority("ROLE_USER")
                                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/merchant/**","/foods/**").hasAnyAuthority("ROLE_MERCHANT")
 //                        .requestMatchers(HttpMethod.GET).hasAnyRole("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
