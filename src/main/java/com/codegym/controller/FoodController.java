@@ -25,6 +25,11 @@ public class FoodController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Food> getFoodById(@RequestBody Long id){
+           Food food = foodService.findById(id);
+           return new ResponseEntity<>(food,HttpStatus.OK);
+    }
     @PostMapping("")
     public ResponseEntity<String> add(@RequestBody Food food) {
         foodService.save(food);
