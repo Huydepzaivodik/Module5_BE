@@ -23,8 +23,8 @@ public class CartController {
            Cart cart  = cartService.findByUserId(id);
            return new ResponseEntity<>(cart,HttpStatus.OK);
     }
-    @PostMapping("")
-    public ResponseEntity<?> saveCart(@RequestBody Long id ,@RequestBody Food food){
+    @PostMapping("/{id}")
+    public ResponseEntity<?> saveCart(@PathVariable Long id ,@RequestBody Food food){
         Cart cart = cartService.findByUserId(id);
         cart.getFood().add(food);
         cartService.save(cart);
@@ -33,7 +33,9 @@ public class CartController {
     @PostMapping("/delete/{id}")
     public ResponseEntity<?> deleteFood(@PathVariable Long id,@RequestBody Food food){
            Cart cart = cartService.findByUserId(id);
+        System.out.println(food.toString());
            cart.getFood().remove(food);
+        System.out.println(cart.getFood().toString());
            cartService.save(cart);
            return new ResponseEntity<>("DELETING DONE",HttpStatus.OK);
     }
