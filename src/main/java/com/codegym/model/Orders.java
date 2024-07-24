@@ -17,6 +17,11 @@ public class Orders {
     private Date date;
     private Double total;
     private boolean status;
+    private boolean statusOrders;
+    private boolean cancelStatus;
+    private boolean foodTakeStatus;
+    private boolean deliveryFoodStatus;
+    private boolean doneDeliveryMoneyStatus;
     private String shippingAddress;
 
     @ManyToOne
