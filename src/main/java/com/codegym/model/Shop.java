@@ -5,6 +5,8 @@ import jdk.jfr.Enabled;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,7 +23,10 @@ public class Shop {
     private String closing_time;
     private Double revenue;
     private boolean status;
-
+    @OneToMany
+    private Set<Coupon> coupons;
+    @ManyToMany
+    private Set<Orders> orders;
     @OneToOne
     private User user;
 

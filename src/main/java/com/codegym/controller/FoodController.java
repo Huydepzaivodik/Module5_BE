@@ -60,7 +60,6 @@ public class FoodController {
 
     }
 
-    //id ở đây là shop_id
     @GetMapping("/shop/{id}")
     public ResponseEntity<List<Food>> getFoodByShopId(@PathVariable Long id) {
         List<Food> list = foodService.findByShopId(id);

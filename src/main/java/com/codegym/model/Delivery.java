@@ -17,6 +17,7 @@ public class Delivery {
     private String name;
     private String address;
     private Double discount_percentage;
+    private Double cost;
     private String description;
     private boolean status;
     private String phone;

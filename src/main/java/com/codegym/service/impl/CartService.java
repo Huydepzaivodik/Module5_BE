@@ -8,10 +8,7 @@ import com.codegym.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CartService implements ICartService {
@@ -37,8 +34,18 @@ public class CartService implements ICartService {
             newCart.setUser(user);
             newCart.setFood(foods);
             return newCart;
+        }else{
+            Cart rs = cart.get();
+            Set<Food> foods = rs.getFood();
+            foods.stream().sorted(new Comparator<Food>() {
+                @Override
+                public int compare(Food o1, Food o2) {
+                    return (int) (o1.getShop().getId() - o2.getShop().getId());
+                }
+            });
+            rs.setFood(foods);
+            return rs;
         }
-        return cart.get();
     }
     @Override
     public void save(Cart cart) {
@@ -48,5 +55,12 @@ public class CartService implements ICartService {
     @Override
     public void remove(Long id) {
 
+    }
+
+    @Override
+    public void removeAllById(Long id) {
+         Cart cart = cartRepository.findCartByUserId(id).get();
+         cart.getFood().clear();
+         cartRepository.save(cart);
     }
 }

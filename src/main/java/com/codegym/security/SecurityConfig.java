@@ -74,19 +74,16 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/login", "/register", "/hello","/merchant/register").permitAll()
+                                .requestMatchers("/login", "/register", "/hello","/merchant/register","/coupons/**","/orders/**").permitAll()
                                 .requestMatchers("/user/shops/**","/user/foods/**","/users/**","/cart/**").hasAnyAuthority("ROLE_USER")
                                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/merchant/**","/foods/**").hasAnyAuthority("ROLE_MERCHANT")
-//                                .requestMatchers("/merchant/**").hasAnyAuthority("ROLE_MERCHANT")
-//                        .requestMatchers(HttpMethod.GET).hasAnyRole("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 //                        .requestMatchers(HttpMethod.DELETE, "/categories",
 //                                "/typeOfQuestions",
 //                                "/questions",
 //                                "/answers",
 //                                "/quizzes",
 //                                "/hello").hasAnyAuthority("ROLE_ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/users").hasAnyAuthority("ROLE_USER")
                 )
                 .exceptionHandling(customizer -> customizer.accessDeniedHandler(customAccessDeniedHandler()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,5 +1,6 @@
 package com.codegym.service.impl;
 
+import com.codegym.model.Orders;
 import com.codegym.model.Shop;
 import com.codegym.repository.ShopRepository;
 import com.codegym.service.IShopService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class ShopService implements IShopService {
     @Autowired

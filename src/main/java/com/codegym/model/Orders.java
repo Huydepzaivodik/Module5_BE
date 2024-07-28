@@ -1,5 +1,6 @@
 package com.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,30 +17,26 @@ public class Orders {
     private Long id;
     private Date date;
     private Double total;
-    private boolean status;
+    private String status;
     private String shippingAddress;
 
     @ManyToOne
     private User user;
-
-    @ManyToOne
-    private Shop shop;
+    @ManyToMany
+    private Set<Shop> shops;
 
     @ManyToOne
     private Delivery delivery;
 
-    @ManyToOne
-    private Coupon coupon;
+    @ManyToMany
+    @JoinTable(
+            name = "coupons_orders",
+            joinColumns = @JoinColumn(name = "orders_id"),
+            inverseJoinColumns = @JoinColumn(name = "coupons_id"))
+    private Set<Coupon> coupons;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "orders_detail",
-            joinColumns = {
-                    @JoinColumn(name = "order_id", referencedColumnName = "id"),
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "food_id", referencedColumnName = "id")
-            }
-    )
-    private Set<Food> foods;
+    @OneToMany(mappedBy = "orderProductPK.order")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Set<OrderProduct> foods;
 }
