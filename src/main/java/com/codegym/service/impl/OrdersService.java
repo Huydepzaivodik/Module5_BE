@@ -49,6 +49,34 @@ public class OrdersService implements IOrdersService {
          return orders;
     }
 
+
+    @Override
+    public List<Orders> searchOrders(Long id, String type, String target) {
+        List<Long> order_ids = ordersRepository.getOrdersByShopId(id);
+        System.out.println(order_ids);
+        List<Orders> orders = new LinkedList<>();
+        if(type.toUpperCase().equals("STATUS")){
+            for (int i = 0; i < order_ids.size();i++){
+                Orders orders1 = ordersRepository.findById(order_ids.get(i)).get();
+                if(Objects.equals(orders1.getStatus(), target))
+                      orders.add(ordersRepository.findById(order_ids.get(i)).get());
+            }
+            return orders;
+        }
+        else if(type.toUpperCase().equals("ID")){
+            orders.add(ordersRepository.findById(Long.parseLong(target)).get());
+            return orders;
+        }else if(type.toUpperCase().equals("COUPON")){
+            for (int i = 0; i < order_ids.size();i++){
+                Orders orders1 = ordersRepository.findById(order_ids.get(i)).get();
+                if(orders1.getCoupons().stream().toList().get(0).getId().equals(Long.parseLong(target)))
+                    orders.add(orders1);
+            }
+            return orders;
+        }
+        return new LinkedList<>();
+    }
+
     @Override
     public Orders getOrderByShop(Long id, Long shop) {
         Optional<Orders> optionalOrders = ordersRepository.findById(id);
@@ -68,7 +96,6 @@ public class OrdersService implements IOrdersService {
                     orderProduct.setQuantity(quantitys.get(i));
                     foods.add(orderProduct);
             }
-            System.out.println(foods);
             orders.setFoods(foods);
             Set<Coupon> coupons = new HashSet<>();
             for(Coupon coupon: orders.getCoupons()){
@@ -88,6 +115,7 @@ public class OrdersService implements IOrdersService {
     public Orders findById(Long id) {
         return ordersRepository.findById(id).orElse(null);
     }
+
     @Override
     public void save(Orders orders) {
         Orders newOrder = ordersRepository.save(new Orders());

@@ -47,6 +47,22 @@ public class CartService implements ICartService {
             return rs;
         }
     }
+
+    @Override
+    public List<Food> getFoodsByCartAndShop(Long user_id,Long shop_id) {
+        Optional<Cart> cart = cartRepository.findCartByUserId(user_id);
+        Set<Food> foods = new HashSet<>();
+        if(cart.isPresent())
+        foods = cart.get().getFood();
+        List<Food> food_back = new LinkedList<>();
+        for(Food food: foods){
+            if(food.getShop().getId().equals(shop_id))
+                food_back.add(food);
+        }
+        System.out.println(food_back);
+        return  food_back;
+    }
+
     @Override
     public void save(Cart cart) {
            cartRepository.save(cart);

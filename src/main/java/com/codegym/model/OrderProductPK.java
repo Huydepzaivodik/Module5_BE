@@ -20,4 +20,11 @@ public class OrderProductPK implements Serializable {
     @JoinColumn(name = "food_id")
     private Food food;
 
+    @Override
+    public String toString() {
+        return "OrderProductPK{" +
+                "order=" + order +
+                ", food=" + food +
+                '}';
+    }
 }

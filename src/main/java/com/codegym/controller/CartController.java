@@ -41,7 +41,6 @@ public class CartController {
     }
     @DeleteMapping("/deleteAll/{id}")
     public ResponseEntity<?> deleteAll(@PathVariable Long id){
-
         cartService.removeAllById(id);
         return new ResponseEntity<>("DELETING ALL",HttpStatus.OK);
     }

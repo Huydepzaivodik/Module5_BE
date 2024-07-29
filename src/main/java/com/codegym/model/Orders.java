@@ -20,6 +20,8 @@ public class Orders {
     private String status;
     private String shippingAddress;
 
+    private String note;
+
     @ManyToOne
     private User user;
     @ManyToMany

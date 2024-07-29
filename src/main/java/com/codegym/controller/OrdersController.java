@@ -63,4 +63,14 @@ public class OrdersController {
         Orders orders = ordersService.getOrderByShop(id,shop);
         return new ResponseEntity<>(orders,HttpStatus.OK);
     }
+
+    @GetMapping("search")
+    public ResponseEntity<List<Orders>> searchOrder(@RequestParam Long shop_id,@RequestParam(name = "type") String type,@RequestParam(name = "target")String target){
+           List<Orders> orders  = ordersService.searchOrders(shop_id,type,target);
+        System.out.println("id="+shop_id);
+        System.out.println(type+"-type");
+        System.out.println("target-"+ target);
+           System.out.println(orders);
+           return new ResponseEntity<>(orders,HttpStatus.OK);
+    }
 }
