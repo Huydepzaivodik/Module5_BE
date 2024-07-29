@@ -8,10 +8,7 @@ import com.codegym.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CartService implements ICartService {
@@ -37,9 +34,35 @@ public class CartService implements ICartService {
             newCart.setUser(user);
             newCart.setFood(foods);
             return newCart;
+        }else{
+            Cart rs = cart.get();
+            Set<Food> foods = rs.getFood();
+            foods.stream().sorted(new Comparator<Food>() {
+                @Override
+                public int compare(Food o1, Food o2) {
+                    return (int) (o1.getShop().getId() - o2.getShop().getId());
+                }
+            });
+            rs.setFood(foods);
+            return rs;
         }
-        return cart.get();
     }
+
+    @Override
+    public List<Food> getFoodsByCartAndShop(Long user_id,Long shop_id) {
+        Optional<Cart> cart = cartRepository.findCartByUserId(user_id);
+        Set<Food> foods = new HashSet<>();
+        if(cart.isPresent())
+        foods = cart.get().getFood();
+        List<Food> food_back = new LinkedList<>();
+        for(Food food: foods){
+            if(food.getShop().getId().equals(shop_id))
+                food_back.add(food);
+        }
+        System.out.println(food_back);
+        return  food_back;
+    }
+
     @Override
     public void save(Cart cart) {
            cartRepository.save(cart);
@@ -48,5 +71,12 @@ public class CartService implements ICartService {
     @Override
     public void remove(Long id) {
 
+    }
+
+    @Override
+    public void removeAllById(Long id) {
+         Cart cart = cartRepository.findCartByUserId(id).get();
+         cart.getFood().clear();
+         cartRepository.save(cart);
     }
 }

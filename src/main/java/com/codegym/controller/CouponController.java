@@ -49,6 +49,12 @@ public class CouponController {
     public ResponseEntity<Coupon> getFoodById(@PathVariable Long id) {
         Coupon coupon = couponService.findById(id);
         return new ResponseEntity<>(coupon, HttpStatus.OK);
+    }
 
+    @GetMapping("/shop/{id}")
+    public ResponseEntity<List<Coupon>> getCouponsByShop(@PathVariable Long id){
+
+           List<Coupon> coupons = couponService.getCouponByFoodId(id);
+           return new ResponseEntity<>(coupons,HttpStatus.OK);
     }
 }

@@ -39,11 +39,9 @@ public class CartController {
            cartService.save(cart);
            return new ResponseEntity<>("DELETING DONE",HttpStatus.OK);
     }
-    @PostMapping("/deleteAll")
-    public ResponseEntity<?> deleteAll(@RequestBody Long id){
-        Cart cart = cartService.findByUserId(id);
-        cart.getFood().clear();
-        cartService.save(cart);
+    @DeleteMapping("/deleteAll/{id}")
+    public ResponseEntity<?> deleteAll(@PathVariable Long id){
+        cartService.removeAllById(id);
         return new ResponseEntity<>("DELETING ALL",HttpStatus.OK);
     }
 }

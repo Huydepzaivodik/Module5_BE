@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 import com.codegym.model.JwtResponse;
+import com.codegym.model.Orders;
 import com.codegym.model.Shop;
 import com.codegym.model.User;
 import com.codegym.service.IShopService;
@@ -14,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @CrossOrigin("*")

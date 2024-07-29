@@ -31,4 +31,14 @@ couponRepository.save(coupon);
     public void remove(Long id) {
 couponRepository.deleteById(id);
     }
+
+    @Override
+    public List<Coupon> getCouponByFoodIdAndStatus(Long id, boolean status) {
+        return couponRepository.getCouponsByShopIdIsAndStatus(id,status);
+    }
+
+    @Override
+    public List<Coupon> getCouponByFoodId(Long id) {
+        return couponRepository.getCouponsByShopIdIs(id);
+    }
 }
