@@ -12,4 +12,10 @@ public interface IOrdersService extends IGenerateService<Orders>{
     Orders getOrderByShop(Long id,Long shop);
 
     List<Orders> searchOrders(Long id,String type,String target);
+
+    void updateStatus(Long id);
+
+    List<Orders> getOrdersByUserId(Long id);
+
+    Orders getOrder(Long id);
 }
