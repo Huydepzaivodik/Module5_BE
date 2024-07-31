@@ -4,6 +4,7 @@ import com.codegym.model.Food;
 import com.codegym.model.WishList;
 import com.codegym.service.IWishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,13 @@ public class WishListController {
     @Autowired
     private IWishListService wishListService;
 
+
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> checkFoodInWishlist(@Param("userId") Long id, @Param("foodId")Long food){
+           return new ResponseEntity<>(wishListService.checkStatus(id,food),HttpStagit init
+                   git add .
+                   git commit -m "uptus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<WishList> getWishList(@PathVariable Long id) {
         WishList wishList = wishListService.findByUserId(id);

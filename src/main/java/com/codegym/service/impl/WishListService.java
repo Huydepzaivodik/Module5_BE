@@ -35,6 +35,20 @@ public class WishListService implements IWishListService {
     }
 
     @Override
+    public boolean checkStatus(Long user, Long food) {
+        Optional<WishList> optional = wishListRepository.findWishListByUserId(user);
+        if(optional.isPresent()){
+            WishList wishList = optional.get();
+            Set<Food> foods = wishList.getFood();
+            for(Food food1: foods){
+                if(food1.getId().equals(food))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public List<WishList> findAll() {
         return null;
     }

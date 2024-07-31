@@ -8,4 +8,6 @@ public interface IWishListService extends IGenerateService<WishList>{
 
     void save(WishList wishList);
 
+    boolean checkStatus(Long user,Long food);
+
 }
