@@ -6,7 +6,8 @@ import com.codegym.service.ICouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+
 @Service
 
 public class CouponService implements ICouponService {
@@ -35,6 +36,15 @@ couponRepository.deleteById(id);
     @Override
     public List<Coupon> getCouponByFoodIdAndStatus(Long id, boolean status) {
         return couponRepository.getCouponsByShopIdIsAndStatus(id,status);
+    }
+
+    @Override
+    public List<Coupon> getEnableCouponsByUserId(String id) {
+        String[] arr = id.split("-");
+        Collection<Coupon> coupon = couponRepository.getUsedCoupon(Long.parseLong(arr[1]));
+        System.out.println(coupon);
+        List<Coupon> coupons = couponRepository.getEnableStatusCoupon(Long.parseLong(arr[0]),coupon);
+        return coupons;
     }
 
     @Override

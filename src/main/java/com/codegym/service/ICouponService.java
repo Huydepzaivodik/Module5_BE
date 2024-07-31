@@ -10,4 +10,6 @@ public interface ICouponService  extends IGenerateService<Coupon>{
 
        List<Coupon> getCouponByFoodIdAndStatus(Long id,boolean status);
        List<Coupon> getCouponByFoodId(Long id);
+
+       List<Coupon> getEnableCouponsByUserId(String id);
 }
