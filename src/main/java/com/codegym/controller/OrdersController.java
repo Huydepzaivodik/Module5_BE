@@ -40,6 +40,21 @@ public class OrdersController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @PostMapping("/status/{id}")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id){
+           ordersService.updateStatus(id);
+           System.out.println(ordersService.findById(id));
+          return new ResponseEntity<>("",HttpStatus.OK);
+    }
+
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelStatus(@PathVariable Long id){
+        Orders orders = ordersService.findById(id);
+        orders.setStatus("CANCEL");
+        ordersService.save(orders);
+        return new ResponseEntity<>("",HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         ordersService.remove(id);
@@ -48,8 +63,14 @@ public class OrdersController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Orders> getOrdersById(@PathVariable Long id) {
-        Orders orders = ordersService.findById(id);
+        Orders orders = ordersService.getOrder(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long id){
+           List<Orders> orders = ordersService.getOrdersByUserId(id);
+           return new ResponseEntity<>(orders,HttpStatus.OK);
     }
 
     @GetMapping("/shop/{id}")
@@ -67,10 +88,6 @@ public class OrdersController {
     @GetMapping("search")
     public ResponseEntity<List<Orders>> searchOrder(@RequestParam Long shop_id,@RequestParam(name = "type") String type,@RequestParam(name = "target")String target){
            List<Orders> orders  = ordersService.searchOrders(shop_id,type,target);
-        System.out.println("id="+shop_id);
-        System.out.println(type+"-type");
-        System.out.println("target-"+ target);
-           System.out.println(orders);
            return new ResponseEntity<>(orders,HttpStatus.OK);
     }
 }
