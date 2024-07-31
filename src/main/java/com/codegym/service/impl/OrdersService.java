@@ -145,10 +145,7 @@ public class OrdersService implements IOrdersService {
             for(Coupon coupon: orders.getCoupons()){
                 if(coupon.getShop().getId().equals(shop)){
                     coupons.add(coupon);
-                    coupon.setQuantity(coupon.getQuantity() - 1);
-                    couponRepository.save(coupon);
                 }
-
             }
             orders.setCoupons(coupons);
             return orders;
@@ -176,6 +173,8 @@ public class OrdersService implements IOrdersService {
         Set<Coupon> coupons = new HashSet<>();
        for (Coupon coupon: orders.getCoupons()){
             coupons.add(couponRepository.findById(coupon.getId()).get());
+            coupon.setQuantity(coupon.getQuantity() - 1);
+            couponRepository.save(coupon);
        }
        Set<Shop> shops = new HashSet<>();
        newOrder.setCoupons(coupons);

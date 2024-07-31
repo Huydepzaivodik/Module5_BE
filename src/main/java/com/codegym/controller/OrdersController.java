@@ -82,6 +82,7 @@ public class OrdersController {
 
     @GetMapping("/order")
     public ResponseEntity<Orders> getOrderByShop(@RequestParam(name = "order_id") Long id, @RequestParam(name = "shop_id") Long shop){
+        System.out.println(id);
         Orders orders = ordersService.getOrderByShop(id,shop);
         return new ResponseEntity<>(orders,HttpStatus.OK);
     }
