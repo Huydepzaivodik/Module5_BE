@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -56,6 +57,12 @@ public class CouponController {
     @GetMapping("/shop/{id}")
     public ResponseEntity<List<Coupon>> getCouponsByShop(@PathVariable Long id){
            List<Coupon> coupons = couponService.getCouponByFoodId(id);
+           return new ResponseEntity<>(coupons,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Coupon>> getCouponsByShopAndUserId(@PathVariable String id){
+           List<Coupon> coupons = couponService.getEnableCouponsByUserId(id);
            return new ResponseEntity<>(coupons,HttpStatus.OK);
     }
 }

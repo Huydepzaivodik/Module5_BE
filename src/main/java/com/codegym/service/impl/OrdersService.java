@@ -143,8 +143,12 @@ public class OrdersService implements IOrdersService {
             orders.setFoods(foods);
             Set<Coupon> coupons = new HashSet<>();
             for(Coupon coupon: orders.getCoupons()){
-                if(coupon.getShop().getId().equals(shop))
+                if(coupon.getShop().getId().equals(shop)){
                     coupons.add(coupon);
+                    coupon.setQuantity(coupon.getQuantity() - 1);
+                    couponRepository.save(coupon);
+                }
+
             }
             orders.setCoupons(coupons);
             return orders;
