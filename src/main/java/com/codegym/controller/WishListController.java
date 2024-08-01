@@ -21,9 +21,7 @@ public class WishListController {
 
     @GetMapping("/check")
     public ResponseEntity<Boolean> checkFoodInWishlist(@Param("userId") Long id, @Param("foodId")Long food){
-           return new ResponseEntity<>(wishListService.checkStatus(id,food),HttpStagit init
-                   git add .
-                   git commit -m "uptus.OK);
+           return new ResponseEntity<>(wishListService.checkStatus(id,food),HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<WishList> getWishList(@PathVariable Long id) {

@@ -36,4 +36,12 @@ public class FoodUserController {
         return new ResponseEntity<>(food, HttpStatus.OK);
     }
 
+    @GetMapping("/shop/{id}")
+    public ResponseEntity<?> getFoodByShopId(@PathVariable Long id) {
+        List<Food> foodList = foodService.findByShopId(id);
+        return new ResponseEntity<>(foodList, HttpStatus.OK);
+    }
+
+
+
 }
