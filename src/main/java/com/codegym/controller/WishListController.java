@@ -18,10 +18,10 @@ public class WishListController {
     @Autowired
     private IWishListService wishListService;
 
-
-    @GetMapping("/check")
-    public ResponseEntity<Boolean> checkFoodInWishlist(@Param("userId") Long id, @Param("foodId")Long food){
-           return new ResponseEntity<>(wishListService.checkStatus(id,food),HttpStatus.OK);
+    @GetMapping("/dup")
+    public ResponseEntity<Boolean> checkFoodInWishlist(@Param("user") Long user, @Param("food")Long food){
+           boolean check = wishListService.checkStatus(user,food);
+           return new ResponseEntity<>(check,HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<WishList> getWishList(@PathVariable Long id) {
