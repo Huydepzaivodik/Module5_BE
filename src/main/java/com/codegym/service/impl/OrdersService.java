@@ -161,6 +161,23 @@ public class OrdersService implements IOrdersService {
         return ordersRepository.findById(id).orElse(null);
     }
 
+
+    @Override
+    public List<Orders> filterOrders(String str, String ship,List<Date> dates) {
+        Collection<Long> longs = new HashSet<>();
+        String[] ships = ship.split("-");
+        for(String s: ships){
+            longs.add(Long.parseLong(s));
+        }
+        List<Orders> orders = ordersRepository.filterOrders(str,longs,dates.get(0),dates.get(1));
+        if(!str.equals("")){
+            Optional<Orders> optional = ordersRepository.findById(Long.parseLong(str));
+            if(optional.isPresent())
+                orders.add(optional.get());
+        }
+        return orders;
+    }
+
     @Override
     public void save(Orders orders) {
         Orders newOrder = ordersRepository.save(new Orders());
@@ -172,9 +189,10 @@ public class OrdersService implements IOrdersService {
        double sub = 0;
         Set<Coupon> coupons = new HashSet<>();
        for (Coupon coupon: orders.getCoupons()){
-            coupons.add(couponRepository.findById(coupon.getId()).get());
-            coupon.setQuantity(coupon.getQuantity() - 1);
-            couponRepository.save(coupon);
+            Coupon coupon1 = couponRepository.findById(coupon.getId()).get();
+            coupons.add(coupon1);
+            coupon1.setQuantity(coupon1.getQuantity() - 1);
+            couponRepository.save(coupon1);
        }
        Set<Shop> shops = new HashSet<>();
        newOrder.setCoupons(coupons);
@@ -204,7 +222,6 @@ public class OrdersService implements IOrdersService {
             food.setQuantity(foodRepository.findById(food.getId()).get().getQuantity() + orderProduct.getQuantity());
             foodRepository.save(food);
         }
-
        ordersRepository.save(newOrder);
     }
 
