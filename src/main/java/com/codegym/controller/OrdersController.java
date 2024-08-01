@@ -6,12 +6,13 @@ import com.codegym.model.Orders;
 import com.codegym.model.Shop;
 import com.codegym.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @CrossOrigin("*")
@@ -87,9 +88,21 @@ public class OrdersController {
         return new ResponseEntity<>(orders,HttpStatus.OK);
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public ResponseEntity<List<Orders>> searchOrder(@RequestParam Long shop_id,@RequestParam(name = "type") String type,@RequestParam(name = "target")String target){
            List<Orders> orders  = ordersService.searchOrders(shop_id,type,target);
            return new ResponseEntity<>(orders,HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Orders>> filterOrders(@RequestParam(name = "str",required = false)String str, @RequestParam(name = "ships",required = false) String ship, @RequestParam(name = "start",required = false) String start,@RequestParam(name = "end",required = false)String end){
+        System.out.println(start);
+        Date start_time = new java.sql.Date(Long.parseLong(start));
+        Date end_time  = new java.sql.Date(Long.parseLong(end));
+        List<Date> dates = new LinkedList<>();
+        dates.add(start_time);
+        dates.add(end_time);
+        List<Orders> orders = ordersService.filterOrders(str,ship,dates);
+        return new ResponseEntity<>(orders,HttpStatus.OK);
     }
 }
