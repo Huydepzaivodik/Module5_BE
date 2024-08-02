@@ -22,4 +22,6 @@ public interface IOrdersService extends IGenerateService<Orders>{
     Orders getOrder(Long id);
 
     List<Orders> filterOrders(String str, String ship, List<Date> dates);
+
+    List<Long> getOrdersInformationByUserId(Long id);
 }
