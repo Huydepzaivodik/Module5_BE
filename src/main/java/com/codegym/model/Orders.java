@@ -15,6 +15,8 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "orders_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     private Double total;
     private String status;

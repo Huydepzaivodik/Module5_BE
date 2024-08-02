@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -169,6 +171,7 @@ public class OrdersService implements IOrdersService {
         for(String s: ships){
             longs.add(Long.parseLong(s));
         }
+        System.out.println(Arrays.toString(dates.toArray()));
         List<Orders> orders = ordersRepository.filterOrders(str,longs,dates.get(0),dates.get(1));
         if(!str.equals("")){
             Optional<Orders> optional = ordersRepository.findById(Long.parseLong(str));
@@ -176,6 +179,18 @@ public class OrdersService implements IOrdersService {
                 orders.add(optional.get());
         }
         return orders;
+    }
+
+    @Override
+    public List<Long> getOrdersInformationByUserId(Long id) {
+        Long coupons = ordersRepository.getCouponQuantityUsedByUserId(id);
+        Long orders = ordersRepository.getOrdersQuantityByUserId(id);
+        Long price  =ordersRepository.getTotalPriceByUserId(id);
+        List<Long> arr = new LinkedList<>();
+        arr.add(coupons);
+        arr.add(orders);
+        arr.add(price);
+        return arr;
     }
 
     @Override

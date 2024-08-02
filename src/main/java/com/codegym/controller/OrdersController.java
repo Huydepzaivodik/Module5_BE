@@ -5,6 +5,7 @@ import com.codegym.model.Food;
 import com.codegym.model.Orders;
 import com.codegym.model.Shop;
 import com.codegym.service.IOrdersService;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -70,9 +71,12 @@ public class OrdersController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long id){
+    public ResponseEntity<HashMap<String,List>> getOrdersByUserId(@PathVariable Long id){
            List<Orders> orders = ordersService.getOrdersByUserId(id);
-           return new ResponseEntity<>(orders,HttpStatus.OK);
+           HashMap<String,List> resp = new HashMap<>();
+           resp.put("orders",orders);
+           resp.put("info",ordersService.getOrdersInformationByUserId(id));
+           return new ResponseEntity<>(resp,HttpStatus.OK);
     }
 
     @GetMapping("/shop/{id}")
@@ -97,8 +101,8 @@ public class OrdersController {
     @GetMapping("/filter")
     public ResponseEntity<List<Orders>> filterOrders(@RequestParam(name = "str",required = false)String str, @RequestParam(name = "ships",required = false) String ship, @RequestParam(name = "start",required = false) String start,@RequestParam(name = "end",required = false)String end){
         System.out.println(start);
-        Date start_time = new java.sql.Date(Long.parseLong(start));
-        Date end_time  = new java.sql.Date(Long.parseLong(end));
+        Date start_time = new java.sql.Timestamp(Long.parseLong(start));
+        Date end_time  = new java.sql.Timestamp(Long.parseLong(end));
         List<Date> dates = new LinkedList<>();
         dates.add(start_time);
         dates.add(end_time);
