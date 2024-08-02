@@ -25,13 +25,13 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     List<Orders> getOrdersByUserId(Long id);
 
-    @Query(value = "select sum(total) from orders where user_id = ?1 and month(orders_date) = month(current_date())",nativeQuery = true)
+    @Query(value = "select sum(total) from orders where user_id = ?1 and month(orders_date) = month(current_date()) and year(orders_date) = year(current_date())",nativeQuery = true)
     Long getTotalPriceByUserId(Long id);
 
-    @Query(value = "select count(o.id) from orders o join coupons_orders co on co.orders_id = o.id where o.user_id = ?1 and month(orders_date) = month(current_date())",nativeQuery = true)
+    @Query(value = "select count(o.id) from orders o join coupons_orders co on co.orders_id = o.id where o.user_id = ?1 and month(orders_date) = month(current_date()) and year(orders_date) = year(current_date())",nativeQuery = true)
     Long getCouponQuantityUsedByUserId(Long id);
 
-    @Query(value = "select count(id) from orders where user_id = ? and month(orders_date) = month(current_date())",nativeQuery = true)
+    @Query(value = "select count(id) from orders where user_id = ? and month(orders_date) = month(current_date()) and year(orders_date) = year(current_date())",nativeQuery = true)
     Long getOrdersQuantityByUserId(Long id);
     
 }
