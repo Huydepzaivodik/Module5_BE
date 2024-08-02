@@ -72,5 +72,12 @@ public class FoodController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @GetMapping("/{shop_id}/searchPrice")
+    public ResponseEntity<List<Food>> searchFoodInShopByPrice(@RequestParam("priceMin") Double priceMin, @RequestParam("priceMax") Double priceMax) {
+        List<Food> foodList = foodService.findByPriceBetween(priceMin, priceMax);
+        return new ResponseEntity<>(foodList, HttpStatus.OK);
+    }
+
+
 
 }
