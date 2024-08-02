@@ -2,6 +2,7 @@ package com.codegym.service.impl;
 
 import com.codegym.model.Cart;
 import com.codegym.model.Food;
+import com.codegym.model.Shop;
 import com.codegym.model.User;
 import com.codegym.repository.CartRepository;
 import com.codegym.service.ICartService;
@@ -22,6 +23,50 @@ public class CartService implements ICartService {
     @Override
     public Cart findById(Long id) {
         return cartRepository.findById(id).get();
+    }
+
+    @Override
+    public HashMap<String, List<Food>> getCartByUserId(Long id) {
+        Optional<Cart> optional = cartRepository.findCartByUserId(id);
+        if(optional.isPresent()){
+            Cart cart = optional.get();
+            HashMap<String,List<Food>> hashMap = new HashMap<>();
+            Set<Food> foods = cart.getFood();
+            foods.stream().sorted(new Comparator<Food>() {
+                @Override
+                public int compare(Food o1, Food o2) {
+                    return (int) (o1.getShop().getId() - o2.getShop().getId());
+                }
+            });
+            List<Food> temp = new LinkedList<>();
+            int index = 0;
+            for (Food food: foods){
+                    if(temp.size() == 0) {
+                        temp.add(food);
+                    }
+                    else if(temp.get(temp.size()-1).getShop().getId() != food.getShop().getId() && temp.size() > 0){
+                        List<Food> push = new ArrayList<>();
+                        for (int  i =0 ; i < temp.size();i++){
+                            push.add(temp.get(i));
+                        }
+                        hashMap.put(temp.get(temp.size()-1).getShop().getId().toString(),push);
+                        temp.clear();
+                        temp.add(food);
+                    } else {
+                        temp.add(food);
+                    }
+            }
+            if (temp.size() > 0)
+                   hashMap.put(temp.get(temp.size()-1).getShop().getId().toString(),temp);
+            hashMap.put("list_shop",cart.getFood().stream().toList());
+            return hashMap;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Long> getShopList(Long id) {
+        return cartRepository.getShopByUserId(id);
     }
 
     public Cart findByUserId(Long id){
