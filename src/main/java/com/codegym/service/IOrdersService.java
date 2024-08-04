@@ -6,6 +6,7 @@ import org.aspectj.weaver.ast.Or;
 import org.hibernate.query.Order;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface IOrdersService extends IGenerateService<Orders>{
@@ -24,4 +25,8 @@ public interface IOrdersService extends IGenerateService<Orders>{
     List<Orders> filterOrders(String str, String ship, List<Date> dates);
 
     List<Long> getOrdersInformationByUserId(Long id);
+
+    HashMap<String,List> getOrdersStatsByShopId(Long id,String type);
+
+    HashMap<String,List> getStatsByOrders(List<Orders> orders);
 }

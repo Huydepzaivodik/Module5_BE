@@ -15,7 +15,7 @@ public interface ICartService extends IGenerateService<Cart>{
 
       List<Food> getFoodsByCartAndShop(Long cart_id,Long shop_id);
 
-      HashMap<String,List<Food>> getCartByUserId(Long id);
+      HashMap<String,List> getCartByUserId(Long id);
 
 
       List<Long> getShopList(Long id);

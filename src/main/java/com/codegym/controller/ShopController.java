@@ -1,9 +1,6 @@
 package com.codegym.controller;
 
-import com.codegym.model.JwtResponse;
-import com.codegym.model.Orders;
-import com.codegym.model.Shop;
-import com.codegym.model.User;
+import com.codegym.model.*;
 import com.codegym.service.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -47,4 +44,5 @@ public class ShopController {
         Shop shop = shopService.findByUserId(id_merchant);
         return new ResponseEntity<Shop>(shop,HttpStatus.OK);
     }
+
 }

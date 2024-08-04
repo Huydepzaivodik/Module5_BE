@@ -26,8 +26,8 @@ public class CartController {
            return new ResponseEntity<>(cart,HttpStatus.OK);
     }
     @GetMapping("/total/{id}")
-    public ResponseEntity<HashMap<String,List<Food>>> getCart(@PathVariable Long id ) {
-        HashMap<String,List<Food>> cart  = cartService.getCartByUserId(id);
+    public ResponseEntity<HashMap<String,List>> getCart(@PathVariable Long id ) {
+        HashMap<String,List> cart  = cartService.getCartByUserId(id);
         return new ResponseEntity<>(cart,HttpStatus.OK);
     }
     @PostMapping("/{id}")

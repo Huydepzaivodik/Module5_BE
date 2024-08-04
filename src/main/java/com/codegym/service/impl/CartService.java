@@ -26,11 +26,11 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public HashMap<String, List<Food>> getCartByUserId(Long id) {
+    public HashMap<String, List> getCartByUserId(Long id) {
         Optional<Cart> optional = cartRepository.findCartByUserId(id);
         if(optional.isPresent()){
             Cart cart = optional.get();
-            HashMap<String,List<Food>> hashMap = new HashMap<>();
+            HashMap<String,List> hashMap = new HashMap<>();
             Set<Food> foods = cart.getFood();
             foods.stream().sorted(new Comparator<Food>() {
                 @Override
@@ -58,7 +58,7 @@ public class CartService implements ICartService {
             }
             if (temp.size() > 0)
                    hashMap.put(temp.get(temp.size()-1).getShop().getId().toString(),temp);
-            hashMap.put("list_shop",cart.getFood().stream().toList());
+            hashMap.put("list_shop",cartRepository.getShopByUserId(id));
             return hashMap;
         }
         return null;
