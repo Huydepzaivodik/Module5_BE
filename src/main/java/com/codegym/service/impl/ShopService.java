@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+
 @Service
 public class ShopService implements IShopService {
     @Autowired
     ShopRepository shopRepository;
+
     @Override
     public List<Shop> findAll() {
         return shopRepository.findAll();
@@ -21,13 +23,14 @@ public class ShopService implements IShopService {
 
     @Override
     public Shop findById(Long id) {
-        return null;
+        return shopRepository.findById(id).get();
     }
 
     @Override
     public Shop findByUserId(Long id) {
         return shopRepository.findShopByUserId(id);
     }
+
     @Override
     public void save(Shop shop) {
         shopRepository.save(shop);

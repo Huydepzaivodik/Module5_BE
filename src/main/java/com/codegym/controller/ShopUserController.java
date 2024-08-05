@@ -36,6 +36,16 @@ public class ShopUserController {
         return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 
+    //Show các Food của shop nào đó theo Shop_ID
+    @GetMapping("/shopDetail/{id}")
+    public ResponseEntity<Shop> getShopById(@PathVariable Long id) {
+       Shop shop = shopService.findById(id);
+        return new ResponseEntity<>(shop, HttpStatus.OK);
+    }
+
+
+
+
 //    //Show chi tiết food trong shop theo food_ID
 //    @PostMapping("/{id}")
 //    public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
