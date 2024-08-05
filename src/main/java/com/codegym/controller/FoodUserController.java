@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -34,6 +35,18 @@ public class FoodUserController {
     public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
         Food food = foodService.findById(id);
         return new ResponseEntity<>(food, HttpStatus.OK);
+    }
+
+    @GetMapping("/same/{id}")
+    public ResponseEntity<HashMap<String,List<Food>>> getSimilarFoodsByFoodId(@PathVariable Long id){
+        HashMap<String,List<Food>> hashMap = foodService.findSimilarFoodsByFoodId(id);
+        return new ResponseEntity<>(hashMap,HttpStatus.OK);
+    }
+
+    @GetMapping("/bestseller")
+    public ResponseEntity<List<Food>> getBestSellerFood(){
+           List<Food> foods = foodService.getBestSellerFoods();
+           return new ResponseEntity<>(foods,HttpStatus.OK);
     }
 
     @GetMapping("/shop/{id}")

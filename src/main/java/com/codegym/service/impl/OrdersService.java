@@ -3,12 +3,16 @@ package com.codegym.service.impl;
 import com.codegym.model.*;
 import com.codegym.repository.*;
 import com.codegym.service.IOrdersService;
+import lombok.SneakyThrows;
+import org.aspectj.weaver.ast.Or;
 import org.hibernate.query.Order;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -150,6 +154,7 @@ public class OrdersService implements IOrdersService {
                 }
             }
             orders.setCoupons(coupons);
+            if(orders.getTotal() < 0) orders.setTotal(Double.parseDouble("0"));
             return orders;
     }
 
@@ -182,6 +187,79 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
+    public HashMap<String, List> getStatsByOrders(List<Orders> orders) {
+        HashMap<String , List> map = new HashMap<>();
+        double subtotal = 0;
+        double total_discount = 0;
+        double platform_discount = 0;
+        for (int i = 0 ; i < orders.size();i++){
+            Orders o = orders.get(i);
+            for(OrderProduct food: o.getFoods()){
+                subtotal+= food.getQuantity() * food.getOrderProductPK().getFood().getPrice();
+            }
+            for (Coupon coupon: o.getCoupons()){
+                total_discount += coupon.getDiscount();
+            }
+            for (Shop shop: o.getShops()){
+                if(shop.getIsLoyal())
+                       platform_discount += o.getTotal() * 0.005;
+                else
+                       platform_discount += o.getTotal() * 0.01;
+            }
+        }
+        List<Double> SubtotalList = new LinkedList<>();
+        SubtotalList.add(Double.valueOf(subtotal));
+        List<Double> TotalDiscountList = new LinkedList<>();
+        TotalDiscountList.add(Double.valueOf(total_discount));
+        List<Double> PlatformDiscount = new LinkedList<>();
+        PlatformDiscount.add(Double.valueOf(platform_discount));
+        map.put("subtotal",SubtotalList);
+        map.put("coupon",TotalDiscountList);
+        map.put("platformDis",PlatformDiscount);
+        return map;
+    }
+
+    @SneakyThrows
+    @Override
+    public HashMap<String,List> getOrdersStatsByShopId(Long id,String type) {
+        HashMap<String,List> back = new HashMap<>();
+        List<Long> orderId = new LinkedList<>();
+        switch (type.toUpperCase()){
+            case "MONTH":
+                orderId = ordersRepository.getOrdersInMonth(id);
+                break;
+            case "WEEK":
+                orderId = ordersRepository.getOrdersOnWeek(id);
+                break;
+            case "QUARTER":
+                orderId = ordersRepository.getOrdersInPeriod(id);
+                break;
+            case "LASTMONTH":
+                orderId = ordersRepository.getOrdersLastMonth(id);
+                break;
+            default:
+                break;
+        }
+        List<Orders> months = new LinkedList<>();
+        for (int i = 0 ; i < orderId.size();i++){
+            months.add(getOrder(orderId.get(i)));
+        }
+        back.put("orders",months);
+        List<Long> bestsellerId = ordersRepository.getBestSellerTodayByShopId(id);
+        List<Integer> bestsellerQuantity = ordersRepository.getBestSellerQuantityTodayByShopId(id);
+        List<Food> foods = new LinkedList<>();
+        for (int i = 0 ;i < bestsellerId.size();i++){
+             Food food  = foodRepository.findById(bestsellerId.get(i)).get();
+             food.setQuantity(bestsellerQuantity.get(i));
+             foods.add(food);
+        }
+        HashMap<String,List> stats = getStatsByOrders(months);
+        back.putAll(stats);
+        back.put("bestseller",foods);
+        return back;
+    }
+
+    @Override
     public List<Long> getOrdersInformationByUserId(Long id) {
         Long coupons = ordersRepository.getCouponQuantityUsedByUserId(id);
         Long orders = ordersRepository.getOrdersQuantityByUserId(id);
@@ -211,7 +289,7 @@ public class OrdersService implements IOrdersService {
        }
        Set<Shop> shops = new HashSet<>();
        newOrder.setCoupons(coupons);
-
+       if(coupons.size() == 1)
        for(OrderProduct orderProduct: products){
            shops.add(orderProduct.getProduct().getShop());
            for(Coupon coupon: orders.getCoupons()){
@@ -224,8 +302,14 @@ public class OrdersService implements IOrdersService {
                }
            }
        }
+       else{
+           for(OrderProduct orderProduct: products){
+               shops.add(orderProduct.getProduct().getShop());
+               sub += orderProduct.getTotalPrice();
+           }
+       }
        newOrder.setShops(shops);
-       double delivery_cost = newOrder.getDelivery().getCost()* newOrder.getShops().size();
+       double delivery_cost = newOrder.getDelivery().getCost() * newOrder.getShops().size();
        newOrder.setTotal(delivery_cost+ sub);
        newOrder.setDate(new Date(System.currentTimeMillis()));
        newOrder.setStatus(orders.getStatus());

@@ -30,4 +30,5 @@ public class Shop {
     @OneToOne
     private User user;
 
+    private Boolean isLoyal;
 }

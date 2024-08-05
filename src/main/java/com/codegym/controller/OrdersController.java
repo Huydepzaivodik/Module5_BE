@@ -6,6 +6,7 @@ import com.codegym.model.Orders;
 import com.codegym.model.Shop;
 import com.codegym.service.IOrdersService;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import net.sf.jsqlparser.expression.KeepExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -108,5 +109,11 @@ public class OrdersController {
         dates.add(end_time);
         List<Orders> orders = ordersService.filterOrders(str,ship,dates);
         return new ResponseEntity<>(orders,HttpStatus.OK);
+    }
+
+    @GetMapping("/stats/{id}")
+    public ResponseEntity<HashMap<String,List>> getShopProfitStats(@PathVariable Long id,@RequestParam String type){
+        HashMap<String,List> hashMap = ordersService.getOrdersStatsByShopId(id,type);
+        return new ResponseEntity<>(hashMap,HttpStatus.OK);
     }
 }
