@@ -39,19 +39,16 @@ public class ShopUserController {
     //Show các Food của shop nào đó theo Shop_ID
     @GetMapping("/shopDetail/{id}")
     public ResponseEntity<Shop> getShopById(@PathVariable Long id) {
-       Shop shop = shopService.findById(id);
+        Shop shop = shopService.findById(id);
         return new ResponseEntity<>(shop, HttpStatus.OK);
     }
 
-
-
-
-//    //Show chi tiết food trong shop theo food_ID
-//    @PostMapping("/{id}")
-//    public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
-//        Food food = foodService.findById(id);
-//        return new ResponseEntity<>(food, HttpStatus.OK);
-//    }
+    //Show các food của shop theo checkbox
+    @GetMapping("/filter")
+    public ResponseEntity<List<Food>> getFoodByShopIds(@RequestParam List<Long> shopIds) {
+        List<Food> foods = foodService.filterByShopIds(shopIds);
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
 
 
 }

@@ -53,4 +53,23 @@ public class FoodService implements IFoodService {
         List<Food> foods = foodRepository.findByPriceBetween(lower, higher);
         return foods;
     }
+
+    @Override
+    public List<Food> filterByShopIds(List<Long> shopIds) {
+        List<Food> foods = foodRepository.findByShopIds(shopIds);
+        return foods;
+    }
+
+    @Override
+    public Integer findTotalByFoodId(Long food_id) {
+        Integer quantity = foodRepository.findTotalByFoodId(food_id);
+        return quantity;
+    }
+
+    @Override
+    public List<Food> findByPriceBetweenAndShopId(Double lower, Double higher, Long shopId) {
+        List<Food> foods = foodRepository.findByPriceBetweenAndShopId(lower, higher, shopId);
+        return foods;
+    }
+
 }

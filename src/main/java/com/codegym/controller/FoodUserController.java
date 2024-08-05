@@ -48,5 +48,17 @@ public class FoodUserController {
         return new ResponseEntity<>(foodList, HttpStatus.OK);
     }
 
+    @GetMapping("/searchPriceAndShopId")
+    public ResponseEntity<List<Food>> searchPriceAndShopId(@RequestParam("priceMin") Double priceMin, @RequestParam("priceMax") Double priceMax, @RequestParam("id_shop") Long id_shop) {
+        List<Food> foodList = foodService.findByPriceBetweenAndShopId(priceMin, priceMax, id_shop);
+        return new ResponseEntity<>(foodList, HttpStatus.OK);
+    }
+
+    @GetMapping("/quantities/{id}")
+    public ResponseEntity<?> getFoodByQuantitiesId(@PathVariable Long id) {
+        Integer quantity = foodService.findTotalByFoodId(id);
+        return new ResponseEntity<>(quantity, HttpStatus.OK);
+    }
+
 
 }
