@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -51,9 +52,9 @@ public class FoodUserController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<HashMap<String,List>> getFoodsFilter(@RequestParam(name = "address",required = false)String address, @RequestParam(name = "start",required = false) Double start,@RequestParam(name = "end",required = false)Double end,@RequestParam(name="coupon",required = false) String coupons, @RequestBody(required = false) Collection<String> category){
+    public ResponseEntity<HashMap<String,List>> getFoodsFilter(@RequestParam(name = "address",required = false)String address, @RequestParam(name = "start",required = false) Double start,@RequestParam(name = "end",required = false)Double end,@RequestParam(name="coupon",required = false) String coupons){
            HashMap<String,List> back = new HashMap<>();
-           List<Food> foods = foodService.FilterFood(address,coupons,category,start,end);
+           List<Food> foods = foodService.FilterFood(address,coupons,start,end);
            back.put("foods",foods);
            return new ResponseEntity<>(back,HttpStatus.OK);
     }

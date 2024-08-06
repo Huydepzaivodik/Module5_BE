@@ -16,5 +16,5 @@ public interface IFoodService extends IGenerateService<Food>{
 
     List<Food> getBestSellerFoods();
 
-    List<Food> FilterFood(String address,String coupon,Collection<String> category,Double start,Double end);
+    List<Food> FilterFood(String address,String coupon,Double start,Double end);
 }

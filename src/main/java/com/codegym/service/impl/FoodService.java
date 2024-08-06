@@ -82,10 +82,14 @@ public class FoodService implements IFoodService {
     }
 
     @Override
-    public List<Food> FilterFood(String address, String coupon, Collection<String> category, Double start, Double end) {
+    public List<Food> FilterFood(String address, String coupon, Double start, Double end) {
+
+
         ObjectMapper mapper = new ObjectMapper();
         String address_name = new String();
-        String[] arr= address.split("-");
+        String[] arr = new String[2];
+        if(address != null)
+            arr= address.split("-");
         try {
             URL url = new URL("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
             List<Object> data = mapper.readValue(url, List.class);
@@ -105,21 +109,25 @@ public class FoodService implements IFoodService {
         }
         address_name = address_name.replaceAll("(huyện|quận|thị xã)\\s+", "");
         int number = 0 ;
+
         List<Long> addresses = new LinkedList<>();
         if (address != null){
              number++;
              addresses = foodRepository.getFoodsByShopAddress(address_name);
         }
+
         List<Long> priceRange = new LinkedList<>();
         if (start != null && end != null){
             number++;
             priceRange = foodRepository.getFoodsByPriceRange(start,end);
         }
+
         List<Long> coupons = new LinkedList<>();
         if (coupon != null) {
             number++;
             coupons = foodRepository.getFoodsByShopCoupon(coupon);
         }
+
         HashMap<Long,Integer> check = new HashMap<>();
         for (int i = 0 ; i < priceRange.size();i++){
                 check.put(priceRange.get(i),1);
@@ -142,17 +150,15 @@ public class FoodService implements IFoodService {
                 check.put(coupons.get(i),total+1);
             }
         }
+        if(number == 0){
+             List<Food> foods = foodRepository.findAll();
+             return foods;
+        }
         List<Food> foods = new LinkedList<>();
         Set<Long> keySet = check.keySet();
         for (Long key: keySet){
              if(check.get(key).intValue() == number){
                  Food food = foodRepository.findById(key).get();
-                 if(category != null)
-                 for (String cate: category){
-                     if(food.getName().toUpperCase().contains(cate.toUpperCase()))
-                         foods.add(food);
-                 }
-                 else
                  foods.add(food);
              }
         }
