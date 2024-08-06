@@ -127,6 +127,27 @@ public class OrdersService implements IOrdersService {
         return new LinkedList<>();
     }
 
+
+    @Override
+    public List<User> getUsersByShopId(Long id) {
+        List<Long> ids = ordersRepository.getUserByShopId(id);
+        List<User> users = new LinkedList<>();
+        for (Long i: ids){
+            users.add(userService.findById(i).get());
+        }
+        return users;
+    }
+
+    @Override
+    public List<Orders> getOrdersByUserIdAndShopId(Long user, Long shop) {
+        List<Long> ids = ordersRepository.getOrdersByUserIdAndShopId(user,shop);
+        List<Orders> orders = new LinkedList<>();
+        for (int i = 0 ; i < ids.size();i++){
+            orders.add(getOrder(ids.get(i)));
+        }
+        return orders;
+    }
+
     @Override
     public Orders getOrderByShop(Long id, Long shop) {
         Optional<Orders> optionalOrders = ordersRepository.findById(id);
@@ -218,6 +239,8 @@ public class OrdersService implements IOrdersService {
         map.put("platformDis",PlatformDiscount);
         return map;
     }
+
+
 
     @SneakyThrows
     @Override

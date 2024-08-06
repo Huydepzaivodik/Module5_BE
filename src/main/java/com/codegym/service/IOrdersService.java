@@ -2,6 +2,7 @@ package com.codegym.service;
 
 import com.codegym.model.Orders;
 import com.codegym.model.Shop;
+import com.codegym.model.User;
 import org.aspectj.weaver.ast.Or;
 import org.hibernate.query.Order;
 
@@ -29,4 +30,8 @@ public interface IOrdersService extends IGenerateService<Orders>{
     HashMap<String,List> getOrdersStatsByShopId(Long id,String type);
 
     HashMap<String,List> getStatsByOrders(List<Orders> orders);
+
+    List<User> getUsersByShopId(Long id);
+
+    List<Orders> getOrdersByUserIdAndShopId(Long user,Long shop);
 }
