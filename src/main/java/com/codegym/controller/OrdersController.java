@@ -1,9 +1,6 @@
 package com.codegym.controller;
 
-import com.codegym.model.Coupon;
-import com.codegym.model.Food;
-import com.codegym.model.Orders;
-import com.codegym.model.Shop;
+import com.codegym.model.*;
 import com.codegym.service.IOrdersService;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import net.sf.jsqlparser.expression.KeepExpression;
@@ -115,5 +112,15 @@ public class OrdersController {
     public ResponseEntity<HashMap<String,List>> getShopProfitStats(@PathVariable Long id,@RequestParam String type){
         HashMap<String,List> hashMap = ordersService.getOrdersStatsByShopId(id,type);
         return new ResponseEntity<>(hashMap,HttpStatus.OK);
+    }
+
+    @GetMapping("/shop/users/{id}")
+    public ResponseEntity<List<User>> getUserByShopId(@PathVariable Long id){
+           return new ResponseEntity<>(ordersService.getUsersByShopId(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/shop/user")
+    public ResponseEntity<List<Orders>> getOrderByUserIdAndShopId(@RequestParam(name = "user") Long user, @RequestParam(name = "shop")Long shop){
+           return new ResponseEntity<>(ordersService.getOrdersByUserIdAndShopId(user,shop),HttpStatus.OK);
     }
 }
