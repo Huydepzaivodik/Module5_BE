@@ -2,6 +2,7 @@ package com.codegym.service;
 
 import com.codegym.model.Food;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface IFoodService extends IGenerateService<Food>{
     HashMap<String,List<Food>> findSimilarFoodsByFoodId(Long id);
 
     List<Food> getBestSellerFoods();
+
+    List<Food> FilterFood(String address,String coupon,Collection<String> category,Double start,Double end);
 }

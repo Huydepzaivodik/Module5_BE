@@ -39,7 +39,7 @@ public class ShopUserController {
     //Show các Food của shop nào đó theo Shop_ID
     @GetMapping("/shopDetail/{id}")
     public ResponseEntity<Shop> getShopById(@PathVariable Long id) {
-       Shop shop = shopService.findById(id);
+        Shop shop = shopService.findById(id);
         return new ResponseEntity<>(shop, HttpStatus.OK);
     }
 
